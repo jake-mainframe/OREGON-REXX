@@ -388,6 +388,7 @@ do
 	say "HELPFUL INDIANS SHOW YOU WERE TO FIND MORE FOOD"
 	F=F+14
 end
+say ""
 return 0
 
 
