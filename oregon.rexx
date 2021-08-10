@@ -357,7 +357,7 @@ do
 	end
 	else
 	do
-		if B1 <= 2 then "NICE SHOOTIN' PARDNER---THEY DIDN'T GET MUCH"
+		if B1 <= 2 then say "NICE SHOOTIN' PARDNER---THEY DIDN'T GET MUCH"
 		else
 		do
 			say "SLOW ON THE DRAW---THEY GOT AT YOUR FOOD AND CLOTHES"
