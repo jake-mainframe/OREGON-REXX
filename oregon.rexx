@@ -555,7 +555,7 @@ return 0
 
 
 rider_shooting_outcome:
-if B1 == 0 then "NICE SHOOTING---YOU DROVE THEM OFF"
+if B1 == 0 then say "NICE SHOOTING---YOU DROVE THEM OFF"
 else if B1 > 4 then 
 do
 	say "LOUSY SHOT---YOU GOT KNIFED"
@@ -569,6 +569,7 @@ end
 if B < 0 then
 do
 	say "YOU RAN OUT OF BULLETS AND GOT MASSACRED BY THE RIDERS"
+	call death
 end
 return 0
 
@@ -586,7 +587,7 @@ B1 = TIME('S')
 B1=(B1-B3) - D9
 say ""
 if B1 < 0 then B1=0
-if C$ /== S$.S6 then B1=9
+if C$ ¬== S$.S6 then B1=9
 return 0
 
 
