@@ -6,7 +6,6 @@
 /* in 1971. Its source is an updated version published in the */
 /* July-August 1978 issue of Creative Computing. */
 
-
 say "DO YOU NEED INSTRUCTIONS  (y/n)"
 pull C$
 if C$ == "y" then call instructions
@@ -87,7 +86,7 @@ say "ENTER ONE OF THE ABOVE -- THE BETTER YOU CLAIM YOU ARE, THE"
 say "FASTER YOU'LL HAVE TO BE WITH YOUR GUN TO BE SUCCESSFUL."
 
 pull D9
-if D9 > 5 then D9 = 0
+if D9 > 5 | D9 < 1 | (DATATYPE(D9) == "CHAR") then signal shot_input
 return 0
 
 initial_purchases:
@@ -152,7 +151,7 @@ do
 	say "YOU OVERSPENT--YOU ONLY HAD $700 TO SPEND.  BUY AGAIN"
 	signal ox_purchase
 end
-B = 50 * B
+B = 10*B
 say "AFTER ALL YOUR PURCHASES, YOU NOW HAVE "T" DOLLARS LEFT"
 say ""
 return 0
@@ -395,7 +394,7 @@ return 0
 mountain:
 if M > 950 then
 do
-	if RANDOM(0,10) > 9-((M/100-15)**2+72)/((M/100-15)**2+12) then call south_pass
+	if RANDOM(1,10) > 9-((M/100-15)**2+72)/((M/100-15)**2+12) then call south_pass
 	else call rugged_mountain
 end
 return 0
@@ -403,7 +402,7 @@ return 0
 
 rugged_mountain:
 say "RUGGED MOUNTAINS"
-if RANDOM(0,10) > 1 then
+if RANDOM(1,10) > 1 then
 do
 	if RANDOM(0,100) > 11 then
 	do
@@ -431,7 +430,7 @@ if F1==1 then call blue_mountain
 else if F1==0 then 
 do
 	F1=1
-	if RANDOM(0,10) < 8 then call blizzard
+	if RANDOM(1,10) < 8 then call blizzard
 	else say "YOU MADE IT SAFELY THROUGH SOUTH PASS--NO SNOW"
 end
 return 0
@@ -440,7 +439,7 @@ blue_mountain:
 if M >= 1700 & F2 == 0 then
 do
 	F2 = 1
-	if RANDOM(0,10) < 7 then 
+	if RANDOM(1,10) < 7 then 
 	do 
 		call blizzard
 	end
@@ -490,18 +489,18 @@ return 0
 
 
 riders_attack:
-if (RANDOM(0,10) <= ((M/100-4)**2+72)/((M/100-4)**2+12)-1) then
+if RANDOM(1,10) <= ((M/100-4)**2+72)/((M/100-4)**2+12)-1 then
 do
 	say "RIDERS AHEAD.  THEY ";
 	S5=0
-	if RANDOM(0,10) < 8 then
+	if RANDOM(1,10) < 8 then
 	do
 		say "DONT"
 		S5 = 1
 	end
 	say "LOOK HOSTILE"
     call choose_tactics
-    if RANDOM(0,10) <= 2 then S5=1-S5
+    if RANDOM(1,10) <= 2 then S5=1-S5
     if S5 == 0 then
     do
     	if T1 == 1 then
@@ -519,7 +518,7 @@ do
     	end
     	else if T1 == 3 then
     	do
-			if RANDOM(0,10) > 8 then say "THEY DID NOT ATTACK"
+			if RANDOM(1,10) > 8 then say "THEY DID NOT ATTACK"
 			else
 			do
 				B=B-150
@@ -555,7 +554,7 @@ return 0
 
 
 rider_shooting_outcome:
-if B1 == 0 then say "NICE SHOOTING---YOU DROVE THEM OFF"
+if B1 == 1 then say "NICE SHOOTING---YOU DROVE THEM OFF"
 else if B1 > 4 then 
 do
 	say "LOUSY SHOT---YOU GOT KNIFED"
@@ -584,10 +583,10 @@ say "TYPE "S$.S6
 B3 = TIME('S') 
 pull C$
 B1 = TIME('S')
-B1=(B1-B3) - D9
+B1=B1-B3-D9+1
 say ""
 if B1 < 0 then B1=0
-if C$ ¬== S$.S6 then B1=9
+if C$ /== S$.S6 then B1=9
 return 0
 
 
@@ -619,6 +618,7 @@ do
 			signal choices
 		end
 	end
+	else if X /== 3 then signal choices
 end 
 else 
 do
@@ -633,6 +633,7 @@ do
 			signal choices
 		end
 	end
+	else if X /== 2 then signal choices
 end
 X1=X1*(-1)
 return 0
@@ -645,7 +646,7 @@ check = check_buy()
 if check then F=TRUNC(F+2/3*P)
 say "AMMUNITION"
 check = check_buy()
-if check then B=TRUNC(B+2/3*P*50)
+if check then B=TRUNC(B+2/3*P*10)
 say "CLOTHING"
 check = check_buy()
 if check then C=TRUNC(C+2/3*P)
@@ -683,7 +684,7 @@ do
 end
 else
 do
-	if RANDOM(0,100)<13*B1 then 
+	if RANDOM(1,100)<13*B1 then 
 	do
 		say "YOU MISSED---AND YOUR DINNER GOT AWAY....."
 	end
